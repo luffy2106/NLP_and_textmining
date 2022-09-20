@@ -16,3 +16,15 @@ Application of word embedding:
 - Speech Recognition
 - Information Retrieval
 - Question Answering
+
+
+# Gensim
+
+Gensim is libary to implement word2vec
+
+
+# Problem word embedding can solve
+
+- Compare the similarity between 2 sentences
+- Word embeddings for text classification
+- Knn classifier to categorize documents

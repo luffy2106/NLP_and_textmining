@@ -212,12 +212,12 @@ similarity_word_embedding = np.round_(cosine(centroid_1, centroid_2),5)
 print("The similarity between 2 sentences after doing word embedding is {}".format(similarity_word_embedding))
 
 # load our custom model
-my_model = KeyedVectors.load(my_path + 'brown.embedding')
+# my_model = KeyedVectors.load(my_path + 'brown.embedding')
 
 
 # download model
-corpus = api.load('text8')
-model_corpus = Word2Vec(corpus)
+# corpus = api.load('text8')
+# model_corpus = Word2Vec(corpus)
 
 
 
@@ -226,22 +226,22 @@ model_corpus = Word2Vec(corpus)
 # this is a trick to load only the Google News word vectors corresponding to our vocabulary - otherwise takes too much RAM
 # ! executing the command below should take about one minute
 # my_model.intersect_word2vec_format(my_path + 'GoogleNews-vectors-negative300.bin.gz', binary=True)
-my_model.intersect_word2vec_format(my_path + 'GoogleNews-vectors-negative300.bin.gz', binary=True)
-
+# my_model.intersect_word2vec_format(my_path + 'GoogleNews-vectors-negative300.bin.gz', binary=True)
+model_corpus.intersect_word2vec_format(my_path + 'GoogleNews-vectors-negative300.bin.gz', binary=True)
 # # the model can be queried like a dictionary
 # # and returns as value the vector associated with the key, e.g.:
 # my_model['astronomy']
 # should be very small
-my_model.wmdistance(s_1,s_2)
+model_corpus.wmdistance(s_1,s_2)
 
 # should be null
-my_model.wmdistance(s_1,s_1)
+model_corpus.wmdistance(s_1,s_1)
 
 # compare with a completely different sentence
 # we can see that it is higher
 s_3 = 'not all computer science students are geeks'
 s_3 = [word for word in s_3.split(' ') if word.lower() not in stpwds]
-my_model.wmdistance(s_2,s_3)
+model_corpus.wmdistance(s_2,s_3)
 
 
 ##################
