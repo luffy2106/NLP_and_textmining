@@ -6,6 +6,9 @@ Some popular github :
 
 
 #### 1) What is Word embedding
+
+Take a look at the lab of X
+
 Word embedding is vector representations of a particular word. Word2Vec is a method to construct such an embedding, It can be obtained using two methods
 - CBOW Model : This method takes the context of each word as the input and tries to predict the word corresponding to the context
 - Skip-gram model : We can use the target word (whose representation we want to generate) to predict the context and in the process, we produce the representations
@@ -30,11 +33,21 @@ https://jalammar.github.io/illustrated-transformer/
 
 #### 5.0 How RNN work ?
 
-Take a look at the notebook to see the theory and code implementation(Didn't )
+The main difference between Feed Forward Neural Network and ss RNN is :
+
+Traditional feed-forward neural networks take in a fixed amount of input data all at the same time and produce a fixed amount of output each time. On the other hand, RNNs do not consume all the input data at once. nstead, they take them in one at a time and in a sequence. At each step, the RNN does a series of calculations before producing an output. The output, known as the hidden state, is then combined with the next input in the sequence to produce another output. This process continues until the model is programmed to finish or the input sequence ends.
+
+Reference :
+- https://blog.floydhub.com/a-beginners-guide-on-recurrent-neural-networks-with-pytorch/
+- https://pytorch.org/tutorials/intermediate/char_rnn_classification_tutorial.html
 
 
 #### 5.0 What is the transformer encoder ?
+The transformer uses an encoder-decoder architecture. The encoder extracts features from an input sentence, and the decoder uses the features to produce an output sentence (translation).
+- The encoder in the transformer consists of multiple encoder blocks. An input sentence goes through the encoder blocks, and the output of the last encoder block becomes the input features to the decoder.
+- The decoder also consists of multiple decoder blocks.
 
+https://kikaben.com/transformers-encoder-decoder/
 Reference : http://cs231n.stanford.edu/slides/2021/lecture_11.pdf
 
 #### 5) How BERT work, why do you want to use BERT
