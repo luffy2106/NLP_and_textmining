@@ -16,7 +16,6 @@ modules needed are nltk and gensim. Run these commands in terminal to install nl
 # importing all necessary modules
 from nltk.tokenize import sent_tokenize, word_tokenize
 import warnings
-from IPython import get_ipython
 
 warnings.filterwarnings(action = 'ignore')
 
@@ -44,11 +43,15 @@ for i in sent_tokenize(f):
 
 # Create CBOW model
 """
+Word2Vec is a model that represents each word as a vector
+
 Note that the input data is alway list of list. In this case, we read the text from the file, then do the following things:
 - Use NLTK to convert text to sentence
 - Use NLTK to covert sentence to words
 Then the input data will be the list of list of words.
 """
+
+
 
 model1 = Word2Vec(data, min_count = 1,vector_size = 100, window = 5)
 

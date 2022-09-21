@@ -32,8 +32,31 @@ For more details about the word2vec algorithm, please check here.
 
 https://towardsdatascience.com/introduction-to-word-embedding-and-word2vec-652d0c2060fa
 
+Choice of model architecture
+- Large corpus, higher dimensions, slower - Skip gram
+- Small corpus, faster, cbow
 
-#### 2> Word2Vec is supervised learning or unsupervised learning ?
+#### How word2vec convert word to vetor ?
+word2vec is neural network 
+- For CBOW, the input is context of each word and the label is the word respoding to the context.
+- For skip-gram, target word to predict the context.
+
+Each word was convert to one hot vector. After trainning we have matrix weights. If we multiply matrix weight 
+with one hot vector corresponding to word, we will have word vector.
+
+see reference : https://www.youtube.com/watch?v=UqRCEmrv1gQ (6:24)
+
+
+
+
+
+#### what is word2vec and doc2vec ?
+- word2vec : algorithm based on neural networks, the input is a word and the output is a vector. Then we can compare
+the similarity between words by consine similarity
+- doc2vec : algorithm based on neural networks, the input is a document and the output is a vector. Then we can compare
+the similarity between docs by consine similarity
+
+#### 2> Word2Vec and doc2vec is supervised learning or unsupervised learning ?
 
 It's Unsupervised, but It's more like self supervised because it label the data it self
 
@@ -63,9 +86,10 @@ Thus it forms labels and trains the network.
 
 Word2Vec is not a true unsupervised learning technique (since there is some sort of error backpropagation taking place through correct and incorrect predictions), they are a self-supervised technique, a specific instance of supervised learning where the targets are generated from the input data. In order to get self-supervised models to learn interesting features, you have to come up with an interesting synthetic target and loss function.
 
-#### How to evaluate word2vec :
+#### How to evaluate word2vec/doc2vec :
 
-Word2Vec training is an unsupervised task, there’s no good way to objectively evaluate the result. Evaluation depends on your end application.
+Word2Vec/doc2vec training is an unsupervised task, there’s no good way to objectively evaluate the result. Evaluation depends on your end application(human eyes)
+
 
 #### 2) seq2seq model 
 
@@ -79,22 +103,37 @@ Transformer including input, encoders, decoders, output. The encoding components
 https://jalammar.github.io/illustrated-transformer/
 
 
-#### 4) Explain the difference between gensim and bert 
-- gensim is library to implement word2vec
-- transformer is libary which has the model bert
+#### 4) Explain the difference between gensim and transformer 
+- gensim is library to implement word2vec model
+- transformer is libary to implement model bert
+
+#### Explain the difference between word2vec model and bert model
+- Word2Vec models generate embeddings that are context-independent: ie - there is just one vector (numeric) representation for each word. Different senses of the word (if any) are combined into one single vector.
+- However, the BERT model generates embeddings that allow us to have multiple (more than one) vector (numeric) representations for the same word, based on the context in which the word is used. Thus, BERT embeddings are context-dependent.
+
+For example, in the sentence:
+- We went to the river bank.
+- I need to go to bank to make deposit
+
+the word 'bank' is being used in two different contexts 
+- financial entity
+- land along the river (geography).
+
+Word2Vec will generate the same single vector for the word bank for both the sentences. Whereas, BERT will generate two different vectors for the word bank being used in two different contexts. One vector will be similar to words like money, cash etc. The other vector would be similar to vectors like beach, coast etc
+
 
 #### 5.0 How RNN work ?
 
 The main difference between Feed Forward Neural Network and ss RNN is :
 
-Traditional feed-forward neural networks take in a fixed amount of input data all at the same time and produce a fixed amount of output each time. On the other hand, RNNs do not consume all the input data at once. nstead, they take them in one at a time and in a sequence. At each step, the RNN does a series of calculations before producing an output. The output, known as the hidden state, is then combined with the next input in the sequence to produce another output. This process continues until the model is programmed to finish or the input sequence ends.
+Traditional feed-forward neural networks take in a fixed amount of input data all at the same time and produce a fixed amount of output each time. On the other hand, RNNs do not consume all the input data at once. Instead, they take them in one at a time and in a sequence. At each step, the RNN does a series of calculations before producing an output. The output, known as the hidden state, is then combined with the next input in the sequence to produce another output. This process continues until the model is programmed to finish or the input sequence ends.
 
 Reference :
 - https://blog.floydhub.com/a-beginners-guide-on-recurrent-neural-networks-with-pytorch/
 - https://pytorch.org/tutorials/intermediate/char_rnn_classification_tutorial.html
 
 
-#### 5.0 What is the transformer encoder ?
+#### 5.0 What is the transformer encoder ?(need to research in detailed)
 The transformer uses an encoder-decoder architecture. The encoder extracts features from an input sentence, and the decoder uses the features to produce an output sentence (translation).
 - The encoder in the transformer consists of multiple encoder blocks. An input sentence goes through the encoder blocks, and the output of the last encoder block becomes the input features to the decoder.
 - The decoder also consists of multiple decoder blocks.
@@ -122,8 +161,41 @@ semantic analysis including Word Sense Disambiguation and Relationship Extractio
 
 https://www.geeksforgeeks.org/understanding-semantic-analysis-nlp/
 
+#### Suppose that you use doc2vec to compare the similarity of the requirements in your project, how could you evaluate your model ?
+
+- We ask our client to label which requirements are similar and put to a same cluster. Suppose that we have 4 clusters
+- we embedding all the requirements to vecto using doc2vec.
+- Now we convert unsuppervised learning to suppervised learning by try to predict if a requirement belong to a cluster.
+With the converted vector, we can use logistic regression, KNN, adaboost or neural network(if string have a lot of dimensions) to train, test and evaluate.
+- After doing prediction, we can see how much requirements in the same cluster similar by compare the similarity of 2 vectors.
 
 
+#### How TFIDF work ?
+
+The overall goal of TF-IDF is to statistically measure how important a word is in a collection of documents. It's like a really useful keyword density tool on steroids.	
+
+The TF-IDF weight computation is based on the product of two separate factors, namely the Term Frequency (TF) and the Inverse
+Document Frequency (IDF). The intuition behind this measure, is that a term (word) is very important if it appears many times inside a document AND the number of documents that the this term is present, is relatively small.
+
+the importance (i.e., the weight) of a term t in document d, is quantified by:
+WEIGHT(t, d) = TF(t, d) * IDF(t)
+
+Note:
+* TF(t, d) = (number of occurrences of term t in doc d) / (number of words of d)
+* IDF(t) = log (N/(1+Nt)), where N is the total number of docs and Nt the number of docs containing t
+
+How TFIDF convert text to vector ?
+
+TF-IDF vectorization involves calculating the TF-IDF score for every word in your corpus relative to that document and then putting that information into a vector (see link below using example documents “A” and “B”). Thus each document in your corpus would have its own vector, and the vector would have a TF-IDF score for every single word in the entire collection of documents. Once you have these vectors you can apply them to various use cases such as seeing if two documents are similar by comparing their TF-IDF vector using cosine similarity.
+
+reference:
+- https://www.capitalone.com/tech/machine-learning/understanding-tf-idf/
+
+
+### What is the difference between doc2vec tfidf, gensim doc2vec and bert
+- doc2vec convert string and word to vector based on the relationship between word in "one context"
+- bert convert string and word to vector based on the relationship between word in "different context"
+- tfidf convert string and word to vector based on the "importance of the word in a document"
 
 
 
