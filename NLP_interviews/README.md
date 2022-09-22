@@ -133,7 +133,7 @@ Reference :
 - https://pytorch.org/tutorials/intermediate/char_rnn_classification_tutorial.html
 
 
-#### 5.0 What is the transformer encoder ?(need to research in detailed)
+#### 5.0 What is the transformer encoder decoder ?(need to research in detailed)
 The transformer uses an encoder-decoder architecture. The encoder extracts features from an input sentence, and the decoder uses the features to produce an output sentence (translation).
 - The encoder in the transformer consists of multiple encoder blocks. An input sentence goes through the encoder blocks, and the output of the last encoder block becomes the input features to the decoder.
 - The decoder also consists of multiple decoder blocks.
@@ -142,8 +142,14 @@ https://kikaben.com/transformers-encoder-decoder/
 Reference : http://cs231n.stanford.edu/slides/2021/lecture_11.pdf
 
 #### 5) How BERT work, why do you want to use BERT
-
+(see popular_model repor to see how to implement it)
 BERT architecture consists of several Transformer encoders stacked together. Each Transformer encoder encapsulates two sub-layers: a self-attention layer and a feed-forward layer. Bert convert text to vector by tokenization then start training on pretrained model(Bert base or bert large).
+Basically Bert convert your input string to vector, with the following features:
+- BERT base, which is a BERT model consists of 12 layers of Transforme
+- maximum size of tokens that can be fed into BERT model is 512(the text should not have more than 512 words).
+- Bert automatically add [CLS] and [SEP] to the begin and end of each string, and some padding if the length of text is shorter than the standard.
+- The [cls] token is used for classification task(the model will do classification with the input string begin with [cls]) whereas the [sep] is used to indicate the end of every sentence
+- BERT model then will output an embedding vector of size 768 in each of the tokens. We can use these vectors as an input for different kinds of NLP applications, whether it is text classification, next sentence prediction, Named-Entity-Recognition (NER), or question-answering.
 
 There are at least two reasons why BERT is a powerful language model:
 
@@ -153,6 +159,11 @@ There are at least two reasons why BERT is a powerful language model:
 reference : 
 - https://towardsdatascience.com/text-classification-with-bert-in-pytorch-887965e5820f
 - '*' : chrome-extension://abkfbakhjpmblaafnpgjppbmioombali/pdfjs/viewer.html?file=https%3A%2F%2Fnlp.stanford.edu%2Fseminar%2Fdetails%2Fjdevlin.pdf
+
+How to evaluate Bert ?
+
+Since Bert only covert texts to vector, so the evaluation depend on the appplication. For classification, we take bert output of 
+size 768 then add linear layer with ReLU activation function. At the end of the linear layer, we have a vector of size 5, each corresponds to a category of our labels (sport, business, politics, entertainment, and tech).
 
 (need to undestand deeper)
 #### 6) Explain what is semantic analysis
