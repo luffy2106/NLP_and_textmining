@@ -12,7 +12,7 @@ When someone else creates a model on a huge generic dataset and passes only the 
 Transfer learning is really helpful in NLP. Specially vectorization of text, because converting text to vectors for 50K records also is slow. So if we can use the pre-trained models from others, that helps to resolve the problem of converting the text data to numeric data, and we can continue with the other tasks, such as classification or sentiment analysis, etc.
 
 
-#### 1) What is Word embedding
+#### What is Word embedding
 
 Take a look at the lab of X
 
@@ -244,10 +244,94 @@ reference:
 - https://www.capitalone.com/tech/machine-learning/understanding-tf-idf/
 
 
-### What is the difference between doc2vec tfidf, gensim doc2vec and bert
+#### What is the difference between doc2vec tfidf, gensim doc2vec and bert
 - doc2vec convert string and word to vector based on the relationship between word in "one context"
 - bert convert string and word to vector based on the relationship between word in "different context"
 - tfidf convert string and word to vector based on the "importance of the word in a document"
 
 
+#### What is the difference between Bert and Sbert?
 
+Bert is embedded in word level(each vector is a word) but S-bert is embedded in sentence level(each vector is a sentence).
+
+Note that you can have vectors in sentence level in Bert but this sentence is the combination of words, you have to do another step to have vectors in sentence level.
+On the other hand, a lot of pre-trained was done in Sbert, you can have a vector in Sentence level directly. Take a look at the example below to understand in detail:
+
+```
+from transformers import BertTokenizer, BertModel
+
+tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
+model = BertModel.from_pretrained('bert-base-uncased')
+
+# Encode a sentence
+sentence = "This is a sample sentence."
+tokens = tokenizer.encode(sentence, add_special_tokens=True)
+outputs = model(torch.tensor([tokens]))[0]
+sentence_embedding = outputs[0][0].detach().numpy()
+```
+
+In this example, the BertTokenizer class is used to tokenize the input sentence, and the BertModel class is used to obtain the sentence embedding. The encoding method of the tokenizer is used to add special tokens to the input sentence, and the BertModel instance is called with the encoded input to obtain the model outputs. The sentence embedding is then extracted from the outputs by taking the final hidden state corresponding to the [CLS] token.
+
+
+
+#### Word prediction
+
+We want to build a language model to predict what words come next. Which of the following architecture/model is best suitable ?
+1. LSTM
+2. BERT
+3. bidirectional LTSM 
+4. convolutional network
+
+Bert and bidirectional LTSM utilize the bidirectional stack. It means that they learn information from a sequence of words not only from left to right, but also from right to left.
+Therefore, the anwser is 1 - LSTM.
+
+#### What are the most 3 relevant metrics to determine the similarity between 2 words/sentences with normalized embedding ?
+1. Cosine
+2. Jaccard
+3. Euclidian
+4. Hamming 
+5. Dot Product
+
+- Cosine similarity : convert 2 strings to vector and measure of similarity between two non-zero vectors of an inner product space that measures the cosine of the angle between them(compare the angle)
+```
+https://www.geeksforgeeks.org/python-measure-similarity-between-two-sentences-using-cosine-similarity/
+```
+- Jaccard compare how two set (of n-grams) are similar : J(A, B) = (A∩B) / (A∪B)
+```
+https://stackoverflow.com/questions/39461813/using-jaccard-coefficient-for-measuring-string-similarity
+```
+- Euclidian distance : convert 2 string to vectors then compare the distance between 2 vectors(compare the distance)
+
+- Hamming Distance between two strings(only apply for string with equal length).  the Hamming distance between two strings of equal length is the number of positions at which the corresponding character is different. 
+```
+https://www.geeksforgeeks.org/hamming-distance-two-strings/
+```
+- Dot product consider both cosine and the length of the vectors. Suppose there are 3 vector a,b,c . Even the cosine between vector a and b is higher than consine between vector b and c, if the length of a is higher than c, then a is still more similar to b than c. See this link for more detailed : 
+```
+https://developers.google.com/machine-learning/clustering/similarity/check-your-understanding
+```
+
+
+#### How is LSTM WORK ?
+
+Long Short-Term Memory (LSTM) is a type of recurrent neural network (RNN) architecture designed to effectively capture long-term dependencies in sequential data. The key idea behind LSTMs is the use of a cell state that runs through the entire sequence, with various gates controlling the flow of information into and out of the cell state.
+
+Here's a high-level overview of how an LSTM cell works:
+- Forget Gate: Decides what information to discard from the cell state.
+- Input Gate: Modifies the cell state by adding new information.
+- Update: Calculate the new cell state by combining the results of the forget and input gates.
+- Output Gate: Determines the output based on the updated cell state.
+The design of LSTM allows it to better handle vanishing or exploding gradients, which are common issues in training traditional RNNs on long sequences.
+
+Some common applications of LSTM include:
+- Natural Language Processing (NLP): LSTMs are widely used in tasks such as language modeling, sentiment analysis, machine translation, and text generation.
+- Speech Recognition: LSTMs are used in speech recognition systems to convert spoken language into text.
+- Time Series Forecasting: LSTMs are effective for predicting future values based on historical data, making them useful in areas like stock market forecasting, weather prediction, and energy demand forecasting.
+- Gesture Recognition: LSTMs can be applied to gesture recognition tasks, such as interpreting hand movements or body gestures.
+- Healthcare: LSTMs are used in healthcare for tasks like predicting patient outcomes, analyzing medical records, and monitoring patient health data.
+
+
+#### What is attention layer in NLP ?
+```
+https://www.geeksforgeeks.org/self-attention-in-nlp/
+```
