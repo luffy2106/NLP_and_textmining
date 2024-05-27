@@ -335,3 +335,39 @@ Some common applications of LSTM include:
 ```
 https://www.geeksforgeeks.org/self-attention-in-nlp/
 ```
+
+
+#### Difference between Masked Language Models (MLM) and Causal Language Models (CLM) in NLP
+!.Masked Language Models (MLM):
+- Objective: Predict the original masked words in a sentence.
+- Training Data: Input sentences with random words masked out.
+- Bidirectional Context: MLM can consider the entire context of a sentence because it predicts missing words based on both left and right contexts.
+- Example Model: BERT (Bidirectional Encoder Representations from Transformers) is a popular MLM model.
+
+2. Causal Language Models (CLM):
+- Objective: Predict the next word in a sequence.
+- Training Data: Input sequences where each word is predicted based only on the previous words.
+- Unidirectional Context: CLM can only consider the context to the left of a word since it predicts the next word in a sequence.
+- Example Model: GPT (Generative Pre-trained Transformer) is a well-known CLM model.
+
+In summary, the main difference lies in how MLM and CLM are trained and the context they consider during prediction. MLM predicts masked words bidirectionally within a sentence, while CLM predicts the next word unidirectionally based on preceding words.
+
+#### Could you explain what is transformer ?
+
+The Transformer is a type of model architecture. The key innovation of the Transformer is the self-attention mechanism, which lets the model consider other words in the input sequence when processing each word.
+
+Here's a simple overview of the Transformer architecture:
+- Input Embedding: The input words are converted into vectors.
+- Positional Encoding: Information about the position of each word in the input sequence is added to the embeddings.
+- Encoder: Each encoder consists of two parts: a self-attention layer and a feed-forward neural network(*). The encoders are stacked on top of each other (the number varies based on the specific implementation).
+- Decoder: Similar to the encoder, but with an additional layer of encoder-decoder attention.
+
+(*)
+In summary, the self-attention layer focuses on capturing relationships and dependencies between words in a sequence, allowing the model to weigh different words dynamically. On the other hand, the feedforward layer is responsible for introducing non-linearity and capturing complex patterns in the learned representations. Both layers play crucial roles in the overall functioning of transformer models and contribute to their effectiveness in various natural language processing tasks.
+
+There are many model architecture based on Transformer such as:
+- Bert : BERT, however, is bidirectional — it considers the context from both sides (left and right of a word) to understand the semantic meaning of a particular word in the sentence. Since BERT is trained bidirectionally, it is well suited for tasks that require understanding the context of both sides such as Question Answering, Named Entity Recognition, etc.
+- RoBERTa (Robustly Optimized BERT Pretraining Approach): RoBERTa is a variation of BERT that uses dynamic masking rather than static masking(*) and trains on larger batches and for more steps than BERT.
+- GPT (Generative Pre-training Transformer): GPT is a type of transformer model that is trained to predict the next word in a sentence (language modeling). It's unidirectional, meaning it only uses previous context (words to the left of the current word) for predictions.Since it's unidirectional,it is good at generating human-like text and it works better for tasks like text generation, chatbots, writing assistance etc.Even GPT work best for tasks tasks like text generation, it still can work for task such as question answering, for example GPT 3 of OpenAI.
+
+(*) Dynamic Masking vs Static Masking: In Bert, the masking of tokens is static which means the model sees and predicts the masked tokens in the same positions during pre-training. RoBERTa uses dynamic masking: each time a sentence is fed into the model during training, the model selects different words to mask.
