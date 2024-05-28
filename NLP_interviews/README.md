@@ -336,22 +336,6 @@ Some common applications of LSTM include:
 https://www.geeksforgeeks.org/self-attention-in-nlp/
 ```
 
-
-#### Difference between Masked Language Models (MLM) and Causal Language Models (CLM) in NLP
-!.Masked Language Models (MLM):
-- Objective: Predict the original masked words in a sentence.
-- Training Data: Input sentences with random words masked out.
-- Bidirectional Context: MLM can consider the entire context of a sentence because it predicts missing words based on both left and right contexts.
-- Example Model: BERT (Bidirectional Encoder Representations from Transformers) is a popular MLM model.
-
-2. Causal Language Models (CLM):
-- Objective: Predict the next word in a sequence.
-- Training Data: Input sequences where each word is predicted based only on the previous words.
-- Unidirectional Context: CLM can only consider the context to the left of a word since it predicts the next word in a sequence.
-- Example Model: GPT (Generative Pre-trained Transformer) is a well-known CLM model.
-
-In summary, the main difference lies in how MLM and CLM are trained and the context they consider during prediction. MLM predicts masked words bidirectionally within a sentence, while CLM predicts the next word unidirectionally based on preceding words.
-
 #### Could you explain what is transformer ?
 
 The Transformer is a type of model architecture. The key innovation of the Transformer is the self-attention mechanism, which lets the model consider other words in the input sequence when processing each word.
