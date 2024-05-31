@@ -378,3 +378,11 @@ A typical RAG application has two main components:
 2. Retrieval and generation: the actual RAG chain, which takes the user query at run time and retrieves the relevant data from the index, then passes that to the model.
 - Retrieve: Given a user input, relevant splits are retrieved from storage using a Retriever.
 - Generate: A ChatModel / LLM produces an answer using a prompt that includes the question and the retrieved data
+
+Reference:
+```
+https://python.langchain.com/v0.1/docs/use_cases/question_answering/
+```
+```
+https://aws.amazon.com/what-is/retrieval-augmented-generation/
+```
