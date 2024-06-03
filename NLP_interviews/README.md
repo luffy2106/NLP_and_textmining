@@ -368,3 +368,52 @@ There are many model architecture based on Transformer such as:
 
 (*) Dynamic Masking vs Static Masking: In Bert, the masking of tokens is static which means the model sees and predicts the masked tokens in the same positions during pre-training. RoBERTa uses dynamic masking: each time a sentence is fed into the model during training, the model selects different words to mask.
 
+
+
+#### What is the difference between Embedding model and Large Language Model ?
+
+Primary Function:
+- Embedding Model: Converts text into vector representations(for feature extractors)
+- LLM: Understands and generates text, capable of handling a wide range of NLP tasks.
+Output:
+- Embedding Model: Produces fixed-size vectors.
+- LLM: Produces text or performs specific NLP tasks
+Applications:
+- Embedding Model : 
+* Similarity measurement (e.g., finding similar documents or words)
+* Feature representation for downstream tasks (e.g., classification, clustering)
+* Information retrieval and search.
+- LLM model:
+* Text generation (e.g., writing articles, generating code).
+* Conversational agents and chatbots.
+* Language translation.
+* Text summarization.
+* Sentiment analysis and more.
+
+You can choose embedding models from the leaderboards, based on your use cases
+```
+https://huggingface.co/spaces/mteb/leaderboard
+```
+Example :
+- Examples of Embedding Models:
+* Word2Vec
+* GloVe (Global Vectors for Word Representation)
+* FastText
+* BERT 
+- Examples of Large Language Models (LLMs):
+* GPT-3
+* GPT-4
+* BERT
+* Roberta
+* Mistral
+* Llama 2,3
+
+
+
+
+
+
+
+
+
+
