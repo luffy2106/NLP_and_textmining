@@ -408,6 +408,7 @@ Example :
 * Mistral
 * Llama 2,3
 
+#### What is the NER ? Some popular model and how to use it ?
 
 
 
