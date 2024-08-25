@@ -143,24 +143,123 @@ the word 'bank' is being used in two different contexts
 Word2Vec will generate the same single vector for the word bank for both the sentences. Whereas, BERT will generate two different vectors for the word bank being used in two different contexts. One vector will be similar to words like money, cash etc. The other vector would be similar to vectors like beach, coast etc
 
 
-#### How RNN work ?
+#### [Question] What is RNN(recurrent neural network) ?
 
-The main difference between Feed Forward Neural Network and ss RNN is :
+The main difference between Feed Forward Neural Network and RNN is :
 
 Traditional feed-forward neural networks take in a fixed amount of input data all at the same time and produce a fixed amount of output each time. On the other hand, RNNs do not consume all the input data at once. Instead, they take them in one at a time and in a sequence. At each step, the RNN does a series of calculations before producing an output. The output, known as the hidden state, is then combined with the next input in the sequence to produce another output. This process continues until the model is programmed to finish or the input sequence ends.
 
+###### Issues of Standard RNNs
+- Vanishing Gradient: Text generation, machine translation, and stock market prediction are just a few examples of the time-dependent and sequential data problems that can be modelled with recurrent neural networks. You will discover, though, that the gradient problem makes training RNN difficult.
+- Exploding Gradient: An Exploding Gradient occurs when a neural network is being trained and the slope tends to grow exponentially rather than decay. Large error gradients that build up during training lead to very large updates to the neural network model weights, which is the source of this issue.
+
+###### Variation Of Recurrent Neural Network (RNN)
+To overcome the problems like vanishing gradient and exploding gradient descent several new advanced versions of RNNs are formed some of these are as;
+- Bidirectional Neural Network (BiNN) : A BiNN is a variation of a Recurrent Neural Network in which the input information flows in both direction and then the output of both direction are combined to produce the input => we solved the problem of Vanishing Gradient. BiNN is useful in situations when the context of the input is more important such as Nlp tasks and Time-series analysis problems. 
+- Long Short-Term Memory (LSTM) : Long Short-Term Memory works on the read-write-and-forget principle where given the input information network reads and writes the most useful information from the data and it forgets about the information which is not important in predicting the output. For doing this three new gates are introduced in the RNN. In this way, only the selected information is passed through the network => we solved the problems of Exploding Gradient.
+
+###### How is LSTM WORK ?
+
+Long Short-Term Memory (LSTM) is a type of recurrent neural network (RNN) architecture designed to effectively capture long-term dependencies in sequential data. The key idea behind LSTMs is the use of a cell state that runs through the entire sequence, with various gates controlling the flow of information into and out of the cell state. It is called Long Short-Term Memory because the core of an LSTM is its memory cell, which can store information for long periods. This memory cell is different from the hidden state of traditional RNNs, which only stores information temporarily.
+
+Here's a high-level overview of how an LSTM cell works:
+- Forget Gate: Decides what information to discard from the cell state.
+- Input Gate: Modifies the cell state by adding new information.
+- Update: Calculate the new cell state by combining the results of the forget and input gates.
+- Output Gate: Determines the output based on the updated cell state.
+The design of LSTM allows it to better handle vanishing or exploding gradients, which are common issues in training traditional RNNs on long sequences.
+
+Some common applications of LSTM include:
+- Natural Language Processing (NLP): LSTMs are widely used in tasks such as language modeling, sentiment analysis, machine translation, and text generation.
+- Speech Recognition: LSTMs are used in speech recognition systems to convert spoken language into text.
+- Time Series Forecasting: LSTMs are effective for predicting future values based on historical data, making them useful in areas like stock market forecasting, weather prediction, and energy demand forecasting.
+- Gesture Recognition: LSTMs can be applied to gesture recognition tasks, such as interpreting hand movements or body gestures.
+- Healthcare: LSTMs are used in healthcare for tasks like predicting patient outcomes, analyzing medical records, and monitoring patient health data.
+
+
 Reference :
-- https://blog.floydhub.com/a-beginners-guide-on-recurrent-neural-networks-with-pytorch/
+- https://www.geeksforgeeks.org/introduction-to-recurrent-neural-network/
 - https://pytorch.org/tutorials/intermediate/char_rnn_classification_tutorial.html
+- https://www.geeksforgeeks.org/deep-learning-introduction-to-long-short-term-memory/
+
+#### [Question] What is the encoder decoder frameworks ?
+One area where RNNs played an important role was in the development of machine translation systems, where the objective is to map a sequence of words in one language
+to another.
+The encoder-decoder architecture is a framework commonly used in natural language processing (NLP) tasks, especially in sequence-to-sequence problems like machine translation.
+- Encoder: The encoder processes the input sequence (e.g., a sentence in English) and compresses it into a fixed-length numerical representation, usually called the "last hidden state." This state contains the context or meaning of the input sequence.
+- Decoder: The decoder takes this encoded information and generates the output sequence (e.g., a sentence in another language). It produces the output step-by-step, relying on the encoded representation from the encoder.
+- Sequential Processing: The architecture is particularly suitable for tasks where both the input and output are sequences of arbitrary length. The encoder and decoder can be built using any sequential model, such as Recurrent Neural Networks (RNNs), Long Short-Term Memory (LSTM) networks, or transformers.
+
+This architecture is crucial for tasks like language translation, where an input sequence needs to be transformed into a different output sequence, while preserving context and meaning.
 
 
-#### What is the transformer encoder decoder ?(need to research in detailed)
-The transformer uses an encoder-decoder architecture. The encoder extracts features from an input sentence, and the decoder uses the features to produce an output sentence (translation).
-- The encoder in the transformer consists of multiple encoder blocks. An input sentence goes through the encoder blocks, and the output of the last encoder block becomes the input features to the decoder.
-- The decoder also consists of multiple decoder blocks.
+#### [Question] What is attention layer in NLP ?
+Although elegant in its simplicity, one weakness of encoder-decoder architecture is that the final hidden state of the encoder creates an information bottleneck: it has to represent the meaning of the whole input sequence because this is all the decoder has access to when generating the output. This is especially challenging for long sequences, where information at the start of the sequence might be lost in the process of compressing everything to a single, fixed representation.
 
-https://kikaben.com/transformers-encoder-decoder/
-Reference : http://cs231n.stanford.edu/slides/2021/lecture_11.pdf
+Fortunately, `there is a way out of this bottleneck by allowing the decoder to have access to all of the encoder’s hidden states, the general mechanism for this is called "attention"`, and it is a key component in many modern neural network architectures. The main idea behind attention is that instead of producing a single hidden state for
+the input sequence, the encoder outputs a hidden state at each step that the decoder can access. However, using all the states at the same time would create a huge input
+for the decoder, so some mechanism is needed to prioritize which states to use. This is where attention comes in: it lets the decoder assign a different amount of weight, or “attention,” to each of the encoder states at every decoding timestep. 
+
+In NLP, an attention layer helps the neural network to pay more attention to important words when processing text. There are 2 types of attention:
+
+1. Self-Attention:
+Self-Attention compare words within the same sentence. In self-attention, each word in a sequence is compared to every other word to calculate weights (importance scores), and these weights determine how much attention each word should pay to others in the sequence. For each word, the self-attention mechanism creates three vectors: Query (Q), Key (K), and Value (V).
+- Query : The current word being processed.
+- Key : Other words in the sentence.
+- Value : Importance of each word.
+The model computes attention scores by taking the dot product of the Query with all Keys => These scores are then normalized (using softmax) to determine the weight assigned to each word => The weighted sum of the Value vectors gives the output for the word.
+
+2. Multi-Head Attention
+Multi-Head Attention extends self-attention by applying multiple self-attention mechanisms in parallel, each with different learned parameters. The idea is to allow the model to focus on different aspects of the input sequence simultaneously, capturing more complex relationships.
+- The input is split into multiple heads (typically 8 or 16).
+- Each head performs self-attention independently, producing its own set of attention scores and outputs.
+- The outputs from all the heads are then concatenated and passed through a linear layer to produce the final output.
+
+
+#### [Question] Could you explain what is transformer ?
+
+The Transformer is a type of model architecture. The key innovation of the Transformer is the self-attention mechanism, which lets the model consider other words in the input sequence when processing each word.
+
+Here's a simple overview of the Transformer architecture:
+- Input Embedding: The input words are converted into vectors.
+- Positional Encoding: Information about the position of each word in the input sequence is added to the embeddings.
+- Encoder: Each encoder consists of two parts: a self-attention layer and a feed-forward neural network(*). The encoders are stacked on top of each other (the number varies based on the specific implementation).
+- Decoder: Similar to the encoder, but with an additional layer of encoder-decoder attention.
+
+(*)
+In summary, the self-attention layer focuses on capturing relationships and dependencies between words in a sequence, allowing the model to weigh different words dynamically. On the other hand, the feedforward layer is responsible for introducing non-linearity and capturing complex patterns in the learned representations. Both layers play crucial roles in the overall functioning of transformer models and contribute to their effectiveness in various natural language processing tasks.
+
+There are many model architecture based on Transformer such as:
+- Bert : BERT, however, is bidirectional — it considers the context from both sides (left and right of a word) to understand the semantic meaning of a particular word in the sentence. Since BERT is trained bidirectionally, it is well suited for tasks that require understanding the context of both sides such as Question Answering, Named Entity Recognition, etc.
+- RoBERTa (Robustly Optimized BERT Pretraining Approach): RoBERTa is a variation of BERT that uses dynamic masking rather than static masking(*) and trains on larger batches and for more steps than BERT.
+- GPT (Generative Pre-training Transformer): GPT is a type of transformer model that is trained to predict the next word in a sentence (language modeling). It's unidirectional, meaning it only uses previous context (words to the left of the current word) for predictions.Since it's unidirectional,it is good at generating human-like text and it works better for tasks like text generation, chatbots, writing assistance etc.Even GPT work best for tasks tasks like text generation, it still can work for task such as question answering, for example GPT 3 of OpenAI.
+
+(*) Dynamic Masking vs Static Masking: In Bert, the masking of tokens is static which means the model sees and predicts the masked tokens in the same positions during pre-training. RoBERTa uses dynamic masking: each time a sentence is fed into the model during training, the model selects different words to mask.
+
+
+**Transformer Applications**
+In Transformers Hugging face, we instantiate a pipeline by calling the pipeline() function and providing the name of the task we are interested in:
+```
+from transformers import pipeline
+classifier = pipeline("text-classification")
+```
+The task can be solved by transformer :
+- Text classification
+- Named Entity Recognition : Determine named entities like : products, places, and people
+- Question Answering : We need to provide context in this case
+```
+reader = pipeline("question-answering")
+question = "What does the customer want?"
+outputs = reader(question=question, context=text)
+pd.DataFrame([outputs])
+```
+- Summarization : take a long text as input and generate a short
+version with all the relevant facts.
+- Text gereration
+
+
+
+
 
 #### How BERT work, why do you want to use BERT
 (see popular_model repor to see how to implement it)
@@ -299,74 +398,10 @@ Top 3 Relevant Metrics for Similarity Measurement with Normalized Embeddings:
 These three metrics are commonly utilized for determining similarity between words or sentences represented as normalized embeddings. Each metric offers unique insights into the relationship between vectors and can be chosen based on specific requirements or characteristics of the data being analyzed.
 
 
-#### How is LSTM WORK ?
-
-Long Short-Term Memory (LSTM) is a type of recurrent neural network (RNN) architecture designed to effectively capture long-term dependencies in sequential data. The key idea behind LSTMs is the use of a cell state that runs through the entire sequence, with various gates controlling the flow of information into and out of the cell state.
-
-Here's a high-level overview of how an LSTM cell works:
-- Forget Gate: Decides what information to discard from the cell state.
-- Input Gate: Modifies the cell state by adding new information.
-- Update: Calculate the new cell state by combining the results of the forget and input gates.
-- Output Gate: Determines the output based on the updated cell state.
-The design of LSTM allows it to better handle vanishing or exploding gradients, which are common issues in training traditional RNNs on long sequences.
-
-Some common applications of LSTM include:
-- Natural Language Processing (NLP): LSTMs are widely used in tasks such as language modeling, sentiment analysis, machine translation, and text generation.
-- Speech Recognition: LSTMs are used in speech recognition systems to convert spoken language into text.
-- Time Series Forecasting: LSTMs are effective for predicting future values based on historical data, making them useful in areas like stock market forecasting, weather prediction, and energy demand forecasting.
-- Gesture Recognition: LSTMs can be applied to gesture recognition tasks, such as interpreting hand movements or body gestures.
-- Healthcare: LSTMs are used in healthcare for tasks like predicting patient outcomes, analyzing medical records, and monitoring patient health data.
 
 
-#### What is attention layer in NLP ?
-### **Attention Layer in Natural Language Processing (NLP) - Simplified Explanation:**
 
-In NLP, an attention layer helps the neural network to pay more attention to important words when processing text. It works like focusing a flashlight on specific words while reading a sentence.
 
-- **How it Works:**
-  - Imagine you are reading a sentence, and some words are more crucial for understanding the meaning.
-  - The attention layer helps the model to identify and focus on these important words during processing.
-
-- **Key Points:**
-  - **Query:** The current word being processed.
-  - **Key:** Other words in the sentence.
-  - **Value:** Importance of each word.
-
-- **Benefits:**
-  - Makes the model better at understanding complex sentences.
-  - Improves performance in tasks like translation or summarization.
-  - Helps the model to learn relationships between words effectively.
-
-- **Types:**
-  - **Self-Attention:** Comparing words within the same sentence.
-  - **Multi-Head Attention:** Looking at different aspects of the text simultaneously.
-
-Overall, the attention layer guides the model to focus on essential parts of the text, making it smarter and more accurate in processing language data.
-
-Reference:
-```
-https://www.geeksforgeeks.org/self-attention-in-nlp/
-```
-
-#### Could you explain what is transformer ?
-
-The Transformer is a type of model architecture. The key innovation of the Transformer is the self-attention mechanism, which lets the model consider other words in the input sequence when processing each word.
-
-Here's a simple overview of the Transformer architecture:
-- Input Embedding: The input words are converted into vectors.
-- Positional Encoding: Information about the position of each word in the input sequence is added to the embeddings.
-- Encoder: Each encoder consists of two parts: a self-attention layer and a feed-forward neural network(*). The encoders are stacked on top of each other (the number varies based on the specific implementation).
-- Decoder: Similar to the encoder, but with an additional layer of encoder-decoder attention.
-
-(*)
-In summary, the self-attention layer focuses on capturing relationships and dependencies between words in a sequence, allowing the model to weigh different words dynamically. On the other hand, the feedforward layer is responsible for introducing non-linearity and capturing complex patterns in the learned representations. Both layers play crucial roles in the overall functioning of transformer models and contribute to their effectiveness in various natural language processing tasks.
-
-There are many model architecture based on Transformer such as:
-- Bert : BERT, however, is bidirectional — it considers the context from both sides (left and right of a word) to understand the semantic meaning of a particular word in the sentence. Since BERT is trained bidirectionally, it is well suited for tasks that require understanding the context of both sides such as Question Answering, Named Entity Recognition, etc.
-- RoBERTa (Robustly Optimized BERT Pretraining Approach): RoBERTa is a variation of BERT that uses dynamic masking rather than static masking(*) and trains on larger batches and for more steps than BERT.
-- GPT (Generative Pre-training Transformer): GPT is a type of transformer model that is trained to predict the next word in a sentence (language modeling). It's unidirectional, meaning it only uses previous context (words to the left of the current word) for predictions.Since it's unidirectional,it is good at generating human-like text and it works better for tasks like text generation, chatbots, writing assistance etc.Even GPT work best for tasks tasks like text generation, it still can work for task such as question answering, for example GPT 3 of OpenAI.
-
-(*) Dynamic Masking vs Static Masking: In Bert, the masking of tokens is static which means the model sees and predicts the masked tokens in the same positions during pre-training. RoBERTa uses dynamic masking: each time a sentence is fed into the model during training, the model selects different words to mask.
 
 
 
