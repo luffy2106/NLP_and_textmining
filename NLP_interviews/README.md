@@ -238,7 +238,7 @@ There are many model architecture based on Transformer such as:
 
 
 **Transformer Applications**
-In Transformers Hugging face, we instantiate a pipeline by calling the pipeline() function and providing the name of the task we are interested in:
+In Transformers Hugging face, we instantiate a pipeline by calling the pipeline() function and providing the name of the task we are interested in. By default, the transfomer model used is DistilBERT:
 ```
 from transformers import pipeline
 classifier = pipeline("text-classification")
@@ -246,7 +246,7 @@ classifier = pipeline("text-classification")
 The task can be solved by transformer :
 - Text classification
 - Named Entity Recognition : Determine named entities like : products, places, and people
-- Question Answering : We need to provide context in this case
+- Question Answering(We need to provide context in this case)
 ```
 reader = pipeline("question-answering")
 question = "What does the customer want?"
@@ -256,8 +256,6 @@ pd.DataFrame([outputs])
 - Summarization : take a long text as input and generate a short
 version with all the relevant facts.
 - Text gereration
-
-
 
 
 
