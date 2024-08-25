@@ -1,2 +1,4 @@
 # NLP_and_textmining
-Inherit from the course INF582-Natural Language Processing and textmining in Ecole Polytechnique
+This repo sum up all knowledge I learned about NLP and text mining
+
+
