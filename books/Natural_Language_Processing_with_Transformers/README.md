@@ -96,3 +96,4 @@ trainer.push_to_hub(commit_message="Training completed!")
 
 ### Chapter 7. Question Answering
 
+[on the page 181, Using Haystack to Build a QA Pipeline] 
