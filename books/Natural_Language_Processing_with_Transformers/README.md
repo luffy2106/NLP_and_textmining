@@ -174,3 +174,8 @@ This section of the text explains how to build a question-answering (QA) system 
 
 ### Conclusion:
 The text provides a comprehensive guide on improving QA models through domain adaptation and introduces more advanced techniques like generative QA with RAG models. It emphasizes the importance of understanding the specific needs of the QA task and choosing the appropriate tools and techniques, whether that’s through traditional extractive methods or more advanced generative approaches. The discussion also highlights the importance of evaluation and iteration to achieve the best performance, especially when adapting models to new domains or tasks.
+
+
+### Chapter 8. Chapter 10. Training Transformers from Scratch
+
+[Page 310 Building a Tokenizer]
