@@ -446,6 +446,45 @@ Example :
 
 
 
+#### [Question] What is Lora ?
+
+### 1. **Fine-Tuning with LoRA**:
+   - During fine-tuning with LoRA, only the **LoRA layers** (the additional small trainable layers) are being updated, while the base model’s parameters remain **frozen**.
+   - As training progresses, these **LoRA layers** are being fine-tuned to adapt the base model to the specific task you are working on (e.g., sentiment analysis, text classification, etc.).
+
+### 2. **Checkpoint Saving**:
+   - During the training process, you can save checkpoints at various intervals (e.g., after every epoch, every few steps, or after reaching a certain validation performance).
+   - Each **checkpoint** will contain:
+     - The **trained parameters** from the LoRA layers that have been updated up to that point.
+     - The structure and configuration of the LoRA layers.
+   - These checkpoints **do not** contain the full set of parameters of the base model (since the base model's parameters are not being fine-tuned and remain unchanged).
+
+### 3. **Loading the LoRA Adapter from a Checkpoint**:
+   - When you load a **LoRA checkpoint**, it restores the **fine-tuned LoRA layers** and applies them to the base model.
+   - This allows you to **continue training** from where you left off or use the fine-tuned LoRA layers for inference (predictions) with the base model.
+   - Multiple checkpoints can be saved, each representing the state of the LoRA adapter’s parameters at different stages of training.
+
+### 4. **Applying the LoRA Adapter**:
+   - After fine-tuning is complete, you can apply the saved LoRA adapter (the checkpoint) to the base model by loading it. This merges the LoRA layers with the base model for the specific task.
+
+### Why This Is Useful:
+- **Efficiency**: You can continue fine-tuning from any checkpoint, allowing for **interrupted training** to resume or to experiment with different stages of training.
+- **Task Specialization**: You can save LoRA adapters fine-tuned for different tasks, each one saved as a separate checkpoint. This means you can **swap between tasks** easily by loading the corresponding LoRA adapter for the task you want to perform.
+- **Experimentation**: Saving checkpoints allows you to go back to different stages of training and see how the fine-tuned model performs at various points.
+
+### Example Workflow:
+1. **Start fine-tuning** a base model using LoRA layers for Task A.
+2. **Save checkpoints** during the fine-tuning process (e.g., `lora_task_a_epoch1.ckpt`, `lora_task_a_epoch2.ckpt`).
+3. Each checkpoint will contain the **trained LoRA adapter** with parameters fine-tuned up to that point.
+4. **Load a specific checkpoint** later (e.g., `lora_task_a_epoch2.ckpt`) to use the fine-tuned model for predictions or continue training.
+5. If you work on another task, you can fine-tune a new set of LoRA layers and save a new set of **checkpoints** (e.g., `lora_task_b.ckpt`).
+
+### Summary:
+- Every time you save a checkpoint during fine-tuning with LoRA, you are saving a **LoRA adapter** with the **trained parameters** specific to that point in the training process.
+- These checkpoints allow you to **load and reuse** the fine-tuned LoRA layers for further training or task-specific predictions.
+- This makes LoRA an efficient way to fine-tune large models without having to save and manage the full set of base model parameters.
+
+
 
 
 
