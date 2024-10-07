@@ -484,6 +484,90 @@ Example :
 - These checkpoints allow you to **load and reuse** the fine-tuned LoRA layers for further training or task-specific predictions.
 - This makes LoRA an efficient way to fine-tune large models without having to save and manage the full set of base model parameters.
 
+#### [Question] Paramter efficient fine-tuning for Peft?
+
+Let’s go through each parameter in **LoRAConfig** in detail, explaining its role in how LoRA (Low-Rank Adaptation) is applied to the base model.
+
+### 1. **`r` (Rank of the Update Matrices)**:
+   - **Description**: This controls the **rank** of the low-rank update matrices introduced by LoRA.
+   - **Effect**: 
+     - The **rank (r)** determines the dimensionality of the low-rank matrix used in the LoRA layers. A **lower rank** means smaller update matrices, which results in **fewer trainable parameters** and thus a more lightweight fine-tuning process.
+     - Lower values of `r` (e.g., 4 or 8) result in **smaller matrices** that are faster to train but may have less capacity to model complex tasks.
+     - Higher values of `r` (e.g., 16 or 32) lead to larger matrices with **more trainable parameters** but at a cost of more computational resources.
+   - **Example**: If you set `r=8`, it uses an 8-dimensional matrix for the LoRA layers, which will have fewer parameters than `r=32`.
+
+### 2. **`target_modules` (Modules to Apply LoRA Updates)**:
+   - **Description**: Specifies which **modules** (or layers) of the base model should be affected by LoRA.
+   - **Effect**: 
+     - LoRA is usually applied to **specific parts** of the model, such as the attention blocks (common in transformers) or other layers that handle important computations. The `target_modules` parameter allows you to choose which layers or sub-modules will receive the LoRA updates.
+     - If you don’t specify `target_modules`, LoRA may default to the **attention layers** since they are the most common target.
+   - **Example**: You can set `target_modules=['attention', 'mlp']` to apply LoRA to the attention and MLP (feed-forward) layers of a transformer.
+
+### 3. **`lora_alpha` (LoRA Scaling Factor)**:
+   - **Description**: This is a **scaling factor** applied to the LoRA updates.
+   - **Effect**: 
+     - **LoRA scaling** ensures that the update matrices do not overwhelm the base model's parameters. It controls how much influence the LoRA updates have on the overall output.
+     - A higher `lora_alpha` increases the contribution of the LoRA parameters, while a lower value decreases it.
+   - **Example**: If you set `lora_alpha=16`, the LoRA updates will be scaled more strongly, compared to setting `lora_alpha=4`, which will scale them less.
+
+### 4. **`bias` (Training Bias Parameters)**:
+   - **Description**: Determines whether or not the **bias parameters** of the model should be trained during fine-tuning. It accepts three values: `'none'`, `'all'`, and `'lora_only'`.
+   - **Effect**:
+     - **`none`**: No bias parameters are trained, and only the LoRA layers will be updated.
+     - **`all`**: Both the bias parameters of the base model and the LoRA layers will be trained.
+     - **`lora_only`**: Only the bias terms in the **LoRA layers** will be trained, while other biases remain frozen.
+   - **Example**: If `bias='none'`, no bias parameters will be trained, which is the most common case for reducing fine-tuning overhead.
+
+### 5. **`use_rslora` (Rank-Stabilized LoRA)**:
+   - **Description**: When set to **True**, it enables **Rank-Stabilized LoRA (RS-LoRA)**, which applies a modified scaling factor of `lora_alpha/math.sqrt(r)`.
+   - **Effect**:
+     - Rank-Stabilized LoRA adjusts the scaling to prevent the updates from becoming too large for small ranks. This **stabilizes training** when you use a low rank (small `r`) and helps the model maintain a more balanced adaptation.
+     - If `use_rslora=True`, the scaling factor is set to `lora_alpha/math.sqrt(r)`, which has been shown to **improve performance** compared to the default scaling of `lora_alpha/r`.
+   - **Example**: If `lora_alpha=16` and `r=4`, then with `use_rslora=True`, the scaling factor becomes `16/math.sqrt(4) = 8`.
+
+### 6. **`modules_to_save` (Extra Modules to Save)**:
+   - **Description**: Specifies additional **modules** (apart from the LoRA layers) that should be set as trainable and saved in the final checkpoint.
+   - **Effect**: 
+     - This is typically used when you have other model components, such as a **task-specific head** (e.g., a classification layer), that you want to fine-tune alongside LoRA. You can specify these extra modules so that they are also saved during training.
+   - **Example**: If you are fine-tuning a language model for a classification task, you might set `modules_to_save=['classification_head']` to ensure the classification head is also saved.
+
+### 7. **`layers_to_transform` (Specific Layers to Transform with LoRA)**:
+   - **Description**: Allows you to **select specific layers** (within the target modules) where LoRA will be applied.
+   - **Effect**:
+     - By default, LoRA applies to **all layers** within the `target_modules`. However, if you only want to transform specific layers, you can list them here. This gives you finer control over which parts of the model are impacted by LoRA.
+   - **Example**: If you only want to apply LoRA to layers 0 and 2 in the transformer, you could set `layers_to_transform=[0, 2]`.
+
+### 8. **`layers_pattern` (Pattern Matching for Layers)**:
+   - **Description**: Defines a **pattern** to match layer names inside the `target_modules` when applying LoRA transformations.
+   - **Effect**:
+     - This is useful when working with **custom or non-standard models** that might have different naming conventions for layers. You can specify a pattern that matches the layer names (e.g., 'layer', 'h', 'blocks') to apply LoRA only to the layers that fit this pattern.
+   - **Example**: For a transformer model where the layers are named as `blocks`, you can set `layers_pattern='blocks'` to apply LoRA only to layers matching this pattern.
+
+### 9. **`rank_pattern` (Layer-Specific Rank Settings)**:
+   - **Description**: Allows you to define a **mapping** from layer names (or regular expression patterns) to **custom ranks** for specific layers, overriding the default rank `r`.
+   - **Effect**:
+     - Sometimes, you might want different layers to have different **ranks** depending on their complexity or importance. `rank_pattern` lets you set custom ranks for certain layers while keeping the default rank for others.
+   - **Example**: You can set `rank_pattern={'attention': 8, 'mlp': 4}` to use a rank of 8 for attention layers and 4 for MLP layers.
+
+### 10. **`alpha_pattern` (Layer-Specific Scaling Settings)**:
+   - **Description**: Similar to `rank_pattern`, this allows you to define a **mapping** from layer names (or regular expression patterns) to **custom scaling factors (lora_alpha)** for specific layers.
+   - **Effect**:
+     - You can fine-tune the **impact of LoRA** on different layers by using different `lora_alpha` values for each. This can help balance the influence of LoRA updates across layers that vary in importance or size.
+   - **Example**: If you want a stronger influence on attention layers, you can set `alpha_pattern={'attention': 16, 'mlp': 8}`.
+
+### Summary:
+
+- **`r`**: Controls the size of the LoRA update matrices (lower values reduce the number of trainable parameters).
+- **`target_modules`**: Specifies which modules or layers in the base model to apply LoRA.
+- **`lora_alpha`**: A scaling factor that controls how much influence the LoRA updates have.
+- **`bias`**: Determines if the bias parameters should be trained (none, all, or only in LoRA layers).
+- **`use_rslora`**: Enables Rank-Stabilized LoRA, which adjusts scaling to prevent updates from becoming too large for small ranks.
+- **`modules_to_save`**: Specifies additional layers (e.g., custom heads) to train and save with LoRA layers.
+- **`layers_to_transform`**: Selects specific layers to apply LoRA.
+- **`layers_pattern`**: Pattern matching for layer names to apply LoRA transformations in custom models.
+- **`rank_pattern`**: Specifies custom ranks for specific layers, overriding the default `r`.
+- **`alpha_pattern`**: Specifies custom scaling factors for specific layers, overriding the default `lora_alpha`.
+
 
 
 
