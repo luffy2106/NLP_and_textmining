@@ -158,10 +158,10 @@ To overcome the problems like vanishing gradient and exploding gradient descent 
 - Bidirectional Neural Network (BiNN) : A BiNN is a variation of a Recurrent Neural Network in which the input information flows in both direction and then the output of both direction are combined to produce the input => we solved the problem of Vanishing Gradient. BiNN is useful in situations when the context of the input is more important such as Nlp tasks and Time-series analysis problems. 
 - Long Short-Term Memory (LSTM) : Long Short-Term Memory works on the read-write-and-forget principle where given the input information network reads and writes the most useful information from the data and it forgets about the information which is not important in predicting the output. For doing this three new gates are introduced in the RNN. In this way, only the selected information is passed through the network => we solved the problems of Exploding Gradient.
 - Gated recurrent units (GNUs) : GRUs introduce gating mechanisms that regulate the flow of information, making them more effective at learning long-term dependencies. They are a simplified version of LSTMs, with fewer gates and parameters. The main components of GRU:
-      1. Update gate : This gate controls how much of the previous hidden state h_t-1 should be carried over to the next time step h_t, 
-      2. Reset Gate: This gate controls how much of the previous hidden state should be forgotten (or reset).
-      3. Candidate Hidden State: This represents a potential update to the hidden state, based on the input x_t and the previous hidden state h_t-1
-      4. Final Hidden State: The final hidden state is a combination of the previous hidden state h_t-1 and the candidate hidden state weighted by the update gate z_t
+      1. Update gate : This gate controls how much of the previous hidden state h_t-1 should be carried over to the next time step h_t <br>
+      2. Reset Gate: This gate controls how much of the previous hidden state should be forgotten (or reset). <br>
+      3. Candidate Hidden State: This represents a potential update to the hidden state, based on the input x_t and the previous hidden state h_t-1 <br>
+      4. Final Hidden State: The final hidden state is a combination of the previous hidden state h_t-1 and the candidate hidden state weighted by the update gate z_t <br>
 
 ###### How is LSTM WORK ?
 
