@@ -1,43 +1,64 @@
-# Theory
+---
+word representation
 
-Word embedding is vector representations of a particular word. Word2Vec is a method to construct such an embedding, It can be obtained using two methods:
-- CBOW Model : This method takes the context of each word as the input and tries to predict the word corresponding to the context(See example in the reference)
+---
+# Overview of word representation
 
-More detailed :
-* https://thinkinfi.com/continuous-bag-of-words-cbow-single-word-model-how-it-works/
-* https://thinkinfi.com/continuous-bag-of-words-cbow-multi-word-model-how-it-works/
+The picture below is the sumary of  word representation in NLP
 
-- Skip-gram model : basically the inverse of the CBOW model. We can use the target word to predict the context and in the process, we produce the representations (see the example in the reference). 
-More detailed :
-* http://mccormickml.com/2016/04/19/word2vec-tutorial-the-skip-gram-model/
-Generally, the skip-gram method can have a better performance compared with CBOW method, for it can capture two semantics for a single word. For instance, it will have two vector representations for Apple, one for the company and another for the fruit. 
-For more details about the word2vec algorithm, please check here.
+![overview of word embedding](pictures/NLP_word_representation.png)
 
+# Details of words representation
 
-Application of word embedding:
-- Sentiment Analysis
-- Speech Recognition
-- Information Retrieval
-- Question Answering
+## Feature extractors
 
+We use this approaches when we have a simple task which not involve **semantics** and **context**
 
-# Gensim
+Suppose that we have these example document:
 
-Gensim is a libary to implement word2vec, doc2vec
-- Word2Vec is a Model that represents each Word as a Vector.
-- Doc2Vec is a Model that represents each Document as a Vector.
+* **Document 1** : "The cat sat on the mat."
+* **Document 2** : "The dog barked."
 
-# Word2vec
+### One hot encoding
 
-The input of gensim word2vec always list of list, besides, these parameters are important:
-- size: The number of dimensions of the embeddings and the default is 100.
-- window: The maximum distance between a target word and words around the target word. The default window is 5.
-- min_count: The minimum count of words to consider when training the model, words with occurrence less than this count will be ignored. 
-The default for min_count is 5.
+Encodes individual words or characters as binary vectors.
 
+Vocabulary:
 
-# Problem word embedding can solve
+`["the", "cat", "sat", "on", "mat", "dog", "barked"]`
 
-- Compare the similarity between 2 sentences
-- Word embeddings for text classification
-- Knn classifier to categorize documents
+Each word is represented as a binary vector with one "1" at the word's position in the vocabulary.
+
+* **"cat"** → `[0, 1, 0, 0, 0, 0, 0]`
+* **"dog"** → `[0, 0, 0, 0, 0, 1, 0]`
+
+When to use:
+
+* For simple tasks like basic NLP preprocessing.
+* As input to machine learning models when relationships between words aren't needed.
+
+### Bag of Words (BoW)
+
+Represents documents based on word frequencies in the vocabulary.
+
+* **Document 1** : `[2, 1, 1, 1, 1, 0, 0]`. "the" appears 2 times. "cat", "sat", "on", "mat" appear 1 time each.
+* **Document 2** : `[1, 0, 0, 0, 0, 1, 1]`. "the" appears 1 time, "dog" and "barked" appear 1 time each.
+
+When to use :
+
+* For text classification or clustering where word frequency is important.
+* For tasks with a small vocabulary or corpus size.
+
+### TF-IDF
+
+Represents documents by weighting word importance (frequency × rarity). The intuition behind this measure, is that a term (word) is very important if it appears many times inside a document AND the number of documents that the this term is present, is relatively small.
+
+* **TF (Term Frequency):** Highlights terms frequently appearing in a specific document.
+* **IDF (Inverse Document Frequency):** Reduces the importance of terms common across all documents (e.g., "the", "and").
+
+When to use:
+
+* For information retrivial, input is a query and the target is to check which document is relevant
+* For text classificaiton, convert text to TF-IDF Vectors, then use the TF-IDF vectors as input features to a classification algorithm (e.g., Logistic Regression, SVM, Random Forest).
+* **TF-IDF** effectively reduces the noise from common words, making it more useful when dealing with larger corpora. While BoW can create overly sparse and uninformative features in large vocabularies.
+* Use TF-IDF when your dataset contains many high-frequency but non-informative words, the importance of these words is neutralized by TF-IDF, but it is escalated by BoW.
