@@ -1,9 +1,8 @@
----
-word representation
----
 # Overview of word embeddings category
 
 The picture below is the sumary of  word representation in NLP
+
+![overview of word embedding](pictures/word_embedding_category.jpg)
 
 ![overview of word embedding](pictures/NLP_word_representation.png)
 
@@ -231,14 +230,14 @@ An **RNN (Recurrent Neural Network)** is a type of neural network designed to pr
 
 To address the limitations of standard RNNs (e.g., vanishing/exploding gradients), several advanced architectures have been developed:
 
-##### **1. Bidirectional RNN (BiRNN)** 
+##### **1. Bidirectional RNN (BiRNN)**
 
 * Processes input in both forward and backward directions.
 * Combines outputs from both directions to leverage contextual information from the past and the future.
 * Useful for tasks like **NLP** and  **time-series analysis** , where understanding context is critical.
 * **Correction** : BiRNN does not directly solve the vanishing gradient problem but provides richer context.
 
-##### **2. Long Short-Term Memory (LSTM)** 
+##### **2. Long Short-Term Memory (LSTM)**
 
 * Incorporates **gates** to control the flow of information:
   * **Forget Gate** : Determines what information to discard.
@@ -278,7 +277,7 @@ To address the limitations of standard RNNs (e.g., vanishing/exploding gradients
 | **Performance**   | More robust and widely adopted | Early precursor to contextual embeddings |
 | **Applications**  | General-purpose NLP            | Translation and basic NLP                |
 
-##### **4. Gated Recurrent Units (GRUs)** 
+##### **4. Gated Recurrent Units (GRUs)**
 
 * A simplified version of LSTMs with fewer parameters and computational overhead.
 * Includes two main gates:
