@@ -77,7 +77,8 @@ Word2Vec learns dense vector representations (embeddings) of words based on thei
 * Example: For the sentence "The cat sat on the mat," CBOW might predict "sat" from ["The", "cat", "on", "the", "mat"].
 * Fast and efficient.
 
-  **2.	Skip-Gram** :
+2. Skip Gram
+
 * Predicts the surrounding context words given a target word.
 * Example: Given "sat," predict ["The", "cat", "on", "the", "mat"].
 * Better for infrequent words.
@@ -225,6 +226,8 @@ An **RNN (Recurrent Neural Network)** is a type of neural network designed to pr
 
 * Gradients grow excessively large during backpropagation, leading to instability and ineffective training.
 * This issue occurs less frequently but can significantly disrupt training when it happens.
+
+[Visualizing A Neural Machine Translation Model] https://jalammar.github.io/visualizing-neural-machine-translation-mechanics-of-seq2seq-models-with-attention/
 
 #### Variation Of Recurrent Neural Network (RNN)
 

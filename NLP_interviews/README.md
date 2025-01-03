@@ -601,8 +601,6 @@ Let’s go through each parameter in **LoRAConfig** in detail, explaining its ro
 
 I want to clean code 2
 
-
-
 ###### Sumary
 
 I want to clean code
