@@ -12,6 +12,8 @@ Using a transformer as a feature extractor is fairly simple. As shown in Figure 
 
 ![img](images/Feature_extractor.PNG)
 
+![](/home/tkdang/personal/NLP_and_textmining/books/Natural_Language_Processing_with_Transformers/images/sequence_classification_with_encoded_base_transformer.PNG)
+
 
 
 Key steps:
@@ -19,7 +21,7 @@ Key steps:
 1. Loading the Model and Tokenizer:
    We load the DistilBERT model and tokenizer using AutoModel and AutoTokenizer. The model is placed on the GPU if available.
 2. Tokenizing the Dataset:
-   The dataset is tokenized with padding and truncation enabled. This converts text into **token IDs** and **attention masks**.
+   The dataset is tokenized with padding and truncation enabled. This converts text into **token IDs**(unique numbers present for the tokens) and **attention masks**(Binary vectors(0 and 1 used to distinguish between real tokens and padding tokens in the input).
 3. Extracting Hidden States:
    We define a function extract_hidden_states that processes each batch of inputs, passes them through the model, and retrieves the last hidden state for the [CLS] token (a summary of the input sequence).
 4. Mapping the Extraction Function:
