@@ -1,13 +1,15 @@
 # Natural Language Processing with Transformers
 
-### Chapter 2. Text classification
+## Chapter 2. Text classification
 
 There are 2 ways of training a text classifier
 
 - Feature extraction
 - Fine-tuning
 
-**Training text classifier using feature extraction**
+### **Training text classifier using feature extraction**
+
+
 Using a transformer as a feature extractor is fairly simple. As shown in Figure 2-5, we freeze the body’s weights during training and use the hidden states as features for the classifier. The advantage of this approach is that we can quickly train a small or shallow model. Such a model could be a neural classification layer or a method that does not rely on gradients, such as a random forest. This method is especially convenient if GPUs are unavailable, since the hidden states only need to be precomputed once.
 
 ![img](images/Feature_extractor.PNG)
@@ -34,7 +36,7 @@ Key steps:
 
 The classifier is evaluated using the validation set, and a classification report is generated.
 
-**Training text classifier using fine tuning**
+### **Training text classifier using fine tuning**
 
 The first thing we need is a pretrained DistilBERT model like the one we used in the feature-based approach. The only slight modification is that we use the AutoModelFor
 SequenceClassification model instead of AutoModel. The difference is that the AutoModelForSequenceClassification model has a classification head on top of the
@@ -64,7 +66,9 @@ push_to_hub=True,
 log_level="error")
 ```
 
-**Error analysis**
+### **Error analysis**
+
+
 Here’s a summary of the main ideas behind the error analysis process described:
 
 1. **Objective**: The goal is to analyze your model’s performance by inspecting the examples where it struggles (high loss) and where it is most confident (low loss). This helps you identify issues like mislabeled data, dataset quirks, or potential biases in the model.
@@ -95,7 +99,12 @@ simple:
 trainer.push_to_hub(commit_message="Training completed!")
 ```
 
-### Chapter 7. Question Answering
+## Chapter 3. Multilingual Named Entity Recognition
+
+
+
+
+## Chapter 7. Question Answering
 
 This text provides an overview of how Question Answering (QA) systems, specifically extractive QA, can be used to efficiently retrieve information from large volumes of text, such as customer reviews. The main points covered include:
 
@@ -180,10 +189,10 @@ This section of the text explains how to build a question-answering (QA) system 
 - The text concludes by emphasizing the importance of carefully choosing and combining different QA techniques depending on the use case. It introduces a "QA hierarchy of needs," starting with search-based methods, followed by extractive methods, and finally generative methods.
 - It also touches on exciting future research areas like multimodal QA, QA over knowledge graphs, and automatic question generation using synthetic data.
 
-### Conclusion:
+Conclusion:
 
 The text provides a comprehensive guide on improving QA models through domain adaptation and introduces more advanced techniques like generative QA with RAG models. It emphasizes the importance of understanding the specific needs of the QA task and choosing the appropriate tools and techniques, whether that’s through traditional extractive methods or more advanced generative approaches. The discussion also highlights the importance of evaluation and iteration to achieve the best performance, especially when adapting models to new domains or tasks.
 
-### Chapter 8. Chapter 10. Training Transformers from Scratch
+## Chapter 8. Chapter 10. Training Transformers from Scratch
 
 [Page 318 Training a Tokenizer]
