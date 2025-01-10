@@ -9,14 +9,11 @@ There are 2 ways of training a text classifier
 
 ### **Training text classifier using feature extraction**
 
-
 Using a transformer as a feature extractor is fairly simple. As shown in Figure 2-5, we freeze the body’s weights during training and use the hidden states as features for the classifier. The advantage of this approach is that we can quickly train a small or shallow model. Such a model could be a neural classification layer or a method that does not rely on gradients, such as a random forest. This method is especially convenient if GPUs are unavailable, since the hidden states only need to be precomputed once.
 
 ![img](images/Feature_extractor.PNG)
 
 ![](/home/tkdang/personal/NLP_and_textmining/books/Natural_Language_Processing_with_Transformers/images/sequence_classification_with_encoded_base_transformer.PNG)
-
-
 
 Key steps:
 
@@ -68,7 +65,6 @@ log_level="error")
 
 ### **Error analysis**
 
-
 Here’s a summary of the main ideas behind the error analysis process described:
 
 1. **Objective**: The goal is to analyze your model’s performance by inspecting the examples where it struggles (high loss) and where it is most confident (low loss). This helps you identify issues like mislabeled data, dataset quirks, or potential biases in the model.
@@ -101,8 +97,7 @@ trainer.push_to_hub(commit_message="Training completed!")
 
 ## Chapter 3. Multilingual Named Entity Recognition
 
-
-
+Finished page 96
 
 ## Chapter 7. Question Answering
 
