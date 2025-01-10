@@ -142,7 +142,11 @@ Word2Vec will generate the same single vector for the word bank for both the sen
 
 The main difference between Feed Forward Neural Network and RNN is :
 
-Traditional feed-forward neural networks take in a fixed amount of input data all at the same time and produce a fixed amount of output each time. On the other hand, RNNs do not consume all the input data at once. Instead, they take them in one at a time and in a sequence. At each step, the RNN does a series of calculations before producing an output. The output, known as the hidden state, is then combined with the next input in the sequence to produce another output. This process continues until the model is programmed to finish or the input sequence ends.
+Traditional feed-forward neural networks take in a fixed amount of input data all at the same time and produce a fixed amount of output each time. 
+On the other hand, RNNs do not consume all the input data at once. 
+Instead, they take them in one at a time and in a sequence. At each step, the RNN does a series of calculations before producing an output. 
+The output, known as the hidden state, is then combined with the next input in the sequence to produce another output. 
+This process continues until the model is programmed to finish or the input sequence ends.
 
 ###### Issues of Standard RNNs
 
@@ -153,9 +157,14 @@ Traditional feed-forward neural networks take in a fixed amount of input data al
 
 To overcome the problems like vanishing gradient and exploding gradient descent several new advanced versions of RNNs are formed some of these are as;
 
-- Bidirectional Neural Network (BiNN) : A BiNN is a variation of a Recurrent Neural Network in which the input information flows in both direction and then the output of both direction are combined to produce the input => we solved the problem of Vanishing Gradient. BiNN is useful in situations when the context of the input is more important such as Nlp tasks and Time-series analysis problems.
-- Long Short-Term Memory (LSTM) : Long Short-Term Memory works on the read-write-and-forget principle where given the input information network reads and writes the most useful information from the data and it forgets about the information which is not important in predicting the output. For doing this three new gates are introduced in the RNN. In this way, only the selected information is passed through the network => we solved the problems of Exploding Gradient.
-- Gated recurrent units (GNUs) : GRUs introduce gating mechanisms that regulate the flow of information, making them more effective at learning long-term dependencies. They are a simplified version of LSTMs, with fewer gates and parameters. The main components of GRU:
+- Bidirectional Neural Network (BiNN) : A BiNN is a variation of a Recurrent Neural Network in which the input information flows in both direction 
+and then the output of both direction are combined to produce the input => we solved the problem of Vanishing Gradient. 
+BiNN is useful in situations when the context of the input is more important such as Nlp tasks and Time-series analysis problems.
+- Long Short-Term Memory (LSTM) : Long Short-Term Memory works on the read-write-and-forget principle where given the input information network 
+reads and writes the most useful information from the data and it forgets about the information which is not important in predicting the output. 
+For doing this three new gates are introduced in the RNN. In this way, only the selected information is passed through the network => we solved the problems of Exploding Gradient.
+- Gated recurrent units (GNUs) : GRUs introduce gating mechanisms that regulate the flow of information, making them more effective at learning long-term dependencies. 
+They are a simplified version of LSTMs, with fewer gates and parameters. The main components of GRU:
   1. Update gate : This gate controls how much of the previous hidden state h_t-1 should be carried over to the next time step h_t `<br>`
   2. Reset Gate: This gate controls how much of the previous hidden state should be forgotten (or reset). `<br>`
   3. Candidate Hidden State: This represents a potential update to the hidden state, based on the input x_t and the previous hidden state h_t-1 `<br>`
@@ -163,7 +172,10 @@ To overcome the problems like vanishing gradient and exploding gradient descent 
 
 ###### How is LSTM WORK ?
 
-Long Short-Term Memory (LSTM) is a type of recurrent neural network (RNN) architecture designed to effectively capture long-term dependencies in sequential data. The key idea behind LSTMs is the use of a cell state that runs through the entire sequence, with various gates controlling the flow of information into and out of the cell state. It is called Long Short-Term Memory because the core of an LSTM is its memory cell, which can store information for long periods. This memory cell is different from the hidden state of traditional RNNs, which only stores information temporarily.
+Long Short-Term Memory (LSTM) is a type of recurrent neural network (RNN) architecture designed to effectively capture long-term dependencies in sequential data. 
+The key idea behind LSTMs is the use of a cell state that runs through the entire sequence, with various gates controlling the flow of information into and out of the cell state. 
+It is called Long Short-Term Memory because the core of an LSTM is its memory cell, which can store information for long periods. 
+This memory cell is different from the hidden state of traditional RNNs, which only stores information temporarily.
 
 Here's a high-level overview of how an LSTM cell works:
 
