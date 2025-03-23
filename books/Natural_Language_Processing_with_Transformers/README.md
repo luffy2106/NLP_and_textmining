@@ -1,5 +1,103 @@
 # Natural Language Processing with Transformers
 
+
+## Chapter 1. Hello Transformers
+
+This chapter lays the **foundation** for understanding **transformer models** and their impact on NLP.
+
+### 1.2 Background Concepts
+
+#### **1.2.1 Encoder-Decoder Framework**
+
+Traditional sequence-to-sequence models (like RNNs and LSTMs) encode an input into a vector, then decode it into output (e.g., translation).
+
+#### 1.2.2 Limitations of traditional sequence-to-sequence models
+
+RNNs struggle with long sequences due to information bottlenecks and non-parallelizable computation. To be more specific :
+
+📦 Without Attention: The Bottleneck Problem
+
+Imagine this:
+
+You're trying to **translate** the sentence:
+
+👉 **"The little boy with the blue hat is playing soccer."**
+
+How an RNN encoder-decoder works (without attention):
+
+1. The **encoder RNN** reads the whole sentence,  **word by word** , and after the last word, it outputs a **single hidden state** — like a compressed summary.
+2. The **decoder RNN** then uses this **final hidden state** to generate the translation.
+
+The problem?
+
+That **single vector** has to represent the **entire meaning** of the sentence. But:
+
+* Early information like **"little boy"** may get lost.
+* It becomes worse for  **long sentences** .
+* The model might translate **"is playing soccer"** fine but  **miss "with the blue hat"** .
+
+🧠 This is the **information bottleneck** — the model has limited memory to store all the context.
+
+### 1.3 Introduction of Attention
+
+Now, imagine instead:
+
+* The decoder doesn’t just look at that one final state.
+* It can look at **all hidden states** produced by the encoder — one for each word.
+* And it can **"attend"** to different words based on what it’s generating.
+
+How attention helps:
+
+When the decoder is generating the word for "soccer", it might focus more on:
+
+* The hidden states for "playing", "soccer", "boy".
+
+When it generates something for "hat", it might focus on:
+
+* The hidden states for "blue", "hat", "boy".
+
+💡 This **dynamic focus** is what attention does. It decides  **which parts of the input to pay attention to** , based on what’s being generated.
+
+The main idea behind attention is that instead of producing a single hidden state for the input sequence, the encoder outputs a hidden state at each step that the decoder
+can access. However, using all the states at the same time would create a huge input for the decoder, so some mechanism is needed to prioritize which states to use. This
+is where attention comes in: it lets the decoder assign a different amount of weight, or “attention,” to each of the encoder states at every decoding timestep. This process is
+illustrated in Figure 1.4 below, where the role of attention is shown for predicting the third token in the output sequence.
+
+![Alt text](./images/encode_decoder_with_attention_mechanism.png)
+
+### 1.4 Transfer learning in NLP
+
+For a long time, there was  **no clear pretraining method** , so NLP required **lots of labeled data** and still lagged behind vision tasks.
+
+In  **2017–2018** , breakthroughs emerged:
+
+* OpenAI showed that **unsupervised pretraining** could boost performance.
+* **ULMFiT** introduced a 3-step transfer learning framework for NLP:
+  1. **Pretraining** on a large text corpus (e.g., Wikipedia) via language modeling,
+  2. **Domain adaptation** on task-related corpus (e.g., IMDb),
+  3. **Fine-tuning** for a specific task (e.g., sentiment classification).
+
+🤖 Transformers Take Over:
+
+* Two major transformer models were released in 2018:
+  * **GPT** : Uses the **decoder** part of the transformer; pretrained using language modeling.
+  * **BERT** : Uses the **encoder** part; pretrained with **masked language modeling** (predict missing words).
+* Both were trained on large corpora (e.g., BookCorpus, Wikipedia), and set **new benchmarks** across NLP tasks.
+
+🧰 Hugging Face Transformers:
+
+* Although early models used  **different frameworks** , making them hard to use, the **Transformers library** unified everything.
+* It provided a **common API** across 50+ architectures (PyTorch, TensorFlow, JAX), making it easy to:
+  * Load pretrained models,
+  * Fine-tune them,
+  * Apply them in real-world applications.
+
+
+
+
+
+
+
 ## Chapter 2. Text classification
 
 There are 2 ways of training a text classifier
