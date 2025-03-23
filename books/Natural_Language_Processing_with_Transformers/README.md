@@ -1,6 +1,5 @@
 # Natural Language Processing with Transformers
 
-
 ## Chapter 1. Hello Transformers
 
 This chapter lays the **foundation** for understanding **transformer models** and their impact on NLP.
@@ -307,7 +306,11 @@ simple:
 trainer.push_to_hub(commit_message="Training completed!")
 ```
 
-## Chapter 3. Multilingual Named Entity Recognition
+## Chapter 3 : Transformer Anatomy
+
+Already read when write Doc2Model paper
+
+## Chapter 4. Multilingual Named Entity Recognition
 
 Finished page 96
 
